@@ -1,0 +1,14 @@
+['Q']
+['S']
+['R', 'T']
+Q -> b 
+Q -> b Q 
+Q -> f Q S S a 
+S -> a 
+S -> b T 
+S -> a S a 
+S -> f Q S Q a 
+T -> a 
+T -> b T 
+T -> a T a 
+T -> f Q T T a 

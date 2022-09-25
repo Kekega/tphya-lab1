@@ -1,0 +1,12 @@
+Q -> b
+S -> F S S R A
+T -> A
+R -> A
+R -> b T
+T -> b R
+S -> b R
+Q -> b Q
+R -> F R S R A
+T -> F T R S A
+Q -> F Q S S A
+S -> A

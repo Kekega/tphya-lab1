@@ -1,0 +1,9 @@
+['Q']
+['S', 'R', 'T']
+['F', 'A']
+Q -> b
+Q -> b Q
+Q -> F Q S S F
+S -> F
+S -> b S
+S -> F S S S F
