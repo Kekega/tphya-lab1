@@ -9,5 +9,5 @@
 - Результат в putput.txt
 
 Формат входных данных: 
-- nontestm in uppercase
+- nonterm in uppercase
 - term in lowercase
