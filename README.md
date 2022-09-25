@@ -6,7 +6,7 @@
 
 - Добавляем тест в input.txt
 - python main.py
-- Результат в putput.txt
+- Результат в output.txt
 
 Формат входных данных: 
 - nonterm in uppercase
