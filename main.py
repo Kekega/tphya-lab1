@@ -18,16 +18,16 @@ def parse_input(filename):
 
 def first_split_classes(dict):
     unified = {}
-    eqClasses = {}
-    numeqclass = 0
-    for nonterm, defi in dict.items():
-        patternlist = []
-        for elem in defi:
+    eq_classes = {}
+    num_classes = 0
+    for nont, definition in dict.items():
+        raw_rules_list = []
+        for elem in definition:
             t = get_raw_rules(dict, elem)
-            patternlist.append(t)
-        unified[nonterm] = patternlist
-        eqClasses, numeqclass = fill_eq_classes(unified, nonterm, eqClasses, numeqclass)
-    return eqClasses, unified, numeqclass
+            raw_rules_list.append(t)
+        unified[nont] = raw_rules_list
+        eq_classes, num_classes = fill_eq_classes(unified, nont, eq_classes, num_classes)
+    return eq_classes, unified, num_classes
 
 
 def get_raw_rules(d, item):
@@ -40,11 +40,11 @@ def get_raw_rules(d, item):
     return pattern
 
 
-def fill_eq_classes(patdict, item, eq_classes, num):
-    checkpat = patdict[item]
-    for nonterm, pattern in patdict.items():
-        if nonterm != item and set(checkpat) == set(pattern):
-            eq_classes[item] = eq_classes.get(nonterm)
+def fill_eq_classes(parent_dict, item, eq_classes, num):
+    t = parent_dict[item]
+    for nont, pattern in parent_dict.items():
+        if nont != item and set(t) == set(pattern):
+            eq_classes[item] = eq_classes.get(nont)
             return eq_classes, num
     eq_classes[item] = num
     num += 1
@@ -62,14 +62,14 @@ def replace_nonterms(rule, d, eq_class):
 
 
 def update_eq_classes(patterns, eq_class, d, num, parents_dict):
-    new_pat_dict = {}
     add_class = 0
     flag = False
+    new_pat_dict = {}
     for nonterm, defi in d.items():
-        col = []
+        cur_patterns = []
         for i in range(0, len(defi)):
-            col.append(replace_nonterms(patterns.get(nonterm)[i], defi[i], eq_class))
-        new_pat_dict[nonterm] = col
+            cur_patterns.append(replace_nonterms(patterns.get(nonterm)[i], defi[i], eq_class))
+        new_pat_dict[nonterm] = cur_patterns
     for nont, _ in eq_class.items():
         dad = parents_dict[eq_class[nont]]
         if dad == nont:
@@ -95,9 +95,9 @@ def try_to_find_parent(eq_class, new_pat_dict, nont, what_was, patterns):
     return -1
 
 
-def display_classes(eqClasses):
-    for value in list(set(eqClasses.values())):
-        print([k for k in eqClasses if eqClasses[k] == value])
+def display_classes(eq_classes):
+    for value in list(set(eq_classes.values())):
+        print([k for k in eq_classes if eq_classes[k] == value])
 
 
 def display_simple_case(d):
@@ -120,21 +120,23 @@ def display_answer(d, eq_classes, parents):
                     res += parents[eq_classes[elem]]
 
             print(res)
-            # print()
 
-def sort_dict(eqClasses):
-    sorted_keys = sorted(eqClasses, key=eqClasses.get)
-    eqClassessort = {}
+
+def sort_dict(eq_classes):
+    sorted_keys = sorted(eq_classes, key=eq_classes.get)
+    sorted_classes = {}
     for w in sorted_keys:
-        eqClassessort[w] = eqClasses[w]
-    return eqClassessort
+        sorted_classes[w] = eq_classes[w]
+    return sorted_classes
 
-def get_first_member(eqClasses, i):
-    for k, v in eqClasses.items():
+
+def get_first_member(eq_classes, i):
+    for k, v in eq_classes.items():
         if v == i:
             return k
 
-def main(filename = "test1_input.txt", output_filename = "output.txt"):
+
+def main(filename="test1_input.txt", output_filename="output.txt"):
     d = parse_input(filename)
     for v in d.values():
         v.sort(key=lambda x: (len(x), x))
@@ -158,5 +160,6 @@ def main(filename = "test1_input.txt", output_filename = "output.txt"):
             display_simple_case(d)
         else:
             display_answer(d, eq_classes, class_daddys)
+
 
 main()
